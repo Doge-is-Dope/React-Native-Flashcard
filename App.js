@@ -1,5 +1,6 @@
 import "react-native-gesture-handler";
 import React from "react";
+import { StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign } from "@expo/vector-icons";
@@ -17,13 +18,16 @@ function MyTabs() {
       initialRouteName="Home"
       tabBarOptions={{
         activeTintColor: "#e91e63",
+        labelStyle: {
+          fontFamily: "Book",
+        },
       }}
     >
       <Tab.Screen
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarLabel: "HOME",
+          tabBarLabel: "home".toUpperCase(),
           tabBarIcon: ({ color, size }) => (
             <AntDesign name="home" color={color} size={size} />
           ),
@@ -33,7 +37,7 @@ function MyTabs() {
         name="New Deck"
         component={NewDeckScreen}
         options={{
-          tabBarLabel: "NEW DECK",
+          tabBarLabel: "new deck".toUpperCase(),
           tabBarIcon: ({ color, size }) => (
             <AntDesign name="plussquareo" color={color} size={size} />
           ),
@@ -55,6 +59,7 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
+      <StatusBar barStyle="dark-content" />
       <NavigationContainer>
         <MyTabs />
       </NavigationContainer>
