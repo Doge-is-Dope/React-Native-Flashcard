@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const NewDeckScreen = () => {
   return (
-    <View>
+    <SafeAreaView>
       <Text>New Deck</Text>
-    </View>
+    </SafeAreaView>
   );
 };
 

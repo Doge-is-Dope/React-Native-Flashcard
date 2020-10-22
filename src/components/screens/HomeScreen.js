@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Deck from "../Deck";
 
 const HomeScreen = () => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Deck />
-    </View>
+    </SafeAreaView>
   );
 };
 
