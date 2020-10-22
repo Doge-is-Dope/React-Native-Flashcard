@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { color, dimen } from "../theme";
+import { color, dimen, typography } from "../theme";
 const Deck = () => {
   return (
     <View style={styles.container}>
-      <Text>Home</Text>
       <View style={styles.deckContainer}>
         <Text>React-Native</Text>
       </View>
 
       <View style={styles.deckContainer}>
-        <Text>React-Native</Text>
+        <Text style={styles.title}>React-Native</Text>
       </View>
     </View>
   );
@@ -29,5 +28,7 @@ const styles = StyleSheet.create({
     marginTop: dimen.appMargin,
     marginHorizontal: dimen.appMargin,
   },
-  title: {},
+  title: {
+    ...typography.title3,
+  },
 });

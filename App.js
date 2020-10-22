@@ -3,6 +3,8 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign } from "@expo/vector-icons";
+import { useFonts } from "expo-font";
+import { AppLoading } from "expo";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import NewDeckScreen from "./src/components/screens/NewDeckScreen";
 import HomeScreen from "./src/components/screens/HomeScreen";
@@ -21,7 +23,7 @@ function MyTabs() {
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarLabel: "Home",
+          tabBarLabel: "HOME",
           tabBarIcon: ({ color, size }) => (
             <AntDesign name="home" color={color} size={size} />
           ),
@@ -31,7 +33,7 @@ function MyTabs() {
         name="New Deck"
         component={NewDeckScreen}
         options={{
-          tabBarLabel: "New Deck",
+          tabBarLabel: "NEW DECK",
           tabBarIcon: ({ color, size }) => (
             <AntDesign name="plussquareo" color={color} size={size} />
           ),
@@ -42,6 +44,15 @@ function MyTabs() {
 }
 
 export default function App() {
+  const [loaded, error] = useFonts({
+    Book: require("./assets/fonts/AirbnbCerealBook.ttf"),
+    Bold: require("./assets/fonts/AirbnbCerealBold.ttf"),
+  });
+
+  if (!loaded) {
+    return <AppLoading />;
+  }
+
   return (
     <SafeAreaProvider>
       <NavigationContainer>

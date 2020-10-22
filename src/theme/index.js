@@ -1,4 +1,5 @@
 import * as color from "./color";
 import * as dimen from "./dimen";
+import * as typography from "./typography";
 
-export { color, dimen };
+export { color, dimen, typography };
