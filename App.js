@@ -1,6 +1,6 @@
 import "react-native-gesture-handler";
 import React from "react";
-import { StatusBar } from "react-native";
+import { StatusBar, Platform } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign } from "@expo/vector-icons";
@@ -9,6 +9,7 @@ import { AppLoading } from "expo";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import NewDeckScreen from "./src/components/screens/NewDeckScreen";
 import HomeScreen from "./src/components/screens/HomeScreen";
+import { pallette } from "./src/theme";
 
 const Tab = createBottomTabNavigator();
 
@@ -17,7 +18,7 @@ function MyTabs() {
     <Tab.Navigator
       initialRouteName="Home"
       tabBarOptions={{
-        activeTintColor: "#e91e63",
+        activeTintColor: pallette.accent,
         labelStyle: {
           fontFamily: "Book",
         },
@@ -59,7 +60,9 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar
+        barStyle={Platform.OS === "android" ? "light-content" : "dark-content"}
+      />
       <NavigationContainer>
         <MyTabs />
       </NavigationContainer>
