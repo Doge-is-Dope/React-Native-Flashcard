@@ -3,26 +3,32 @@ import AsyncStorage from "@react-native-community/async-storage";
 const DECK_STORAGE_KEY = "deck";
 
 /**
- * Return all of the decks along with their titles, questions, and answers.
+ * Return all of the decks
  */
 export const getDecks = async () => {
-  return await AsyncStorage.getItem(DECK_STORAGE_KEY);
+  try {
+    const retrievedItem = await AsyncStorage.getItem(DECK_STORAGE_KEY);
+    return JSON.parse(retrievedItem);
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 /**
- * Take in a single id argument and return the deck associated with that id.
- * @param {string} id
- */
-export const getDeck = (id) => {};
-
-/**
- * Take in a single title argument and add it to the decks.
+ * Return the deck associated with the specified title
  * @param {string} title
  */
-export const saveDeckTitle = async (title) => {
+export const getDeck = (title) => {};
+
+/**
+ * Add a deck to the list.
+ * @param {Object} deck
+ */
+export const saveDeck = async (deck) => {
   try {
-    const deckObj = { [new Date().valueOf()]: title };
+    const deckObj = { [deck.title]: deck };
     await AsyncStorage.mergeItem(DECK_STORAGE_KEY, JSON.stringify(deckObj));
+    return deck;
   } catch (e) {
     console.error(e);
   }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import theme, { color, dimen, typography } from "../../theme";
-import Deck from "../Deck";
+
 import ScreenTitle from "./ScreenTitle";
 import { getDecks } from "../../utils/helpers";
 
@@ -22,7 +22,6 @@ const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <ScreenTitle text="Home" />
-      <Deck />
     </SafeAreaView>
   );
 };

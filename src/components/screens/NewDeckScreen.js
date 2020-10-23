@@ -9,13 +9,17 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import theme, { pallette, color, dimen, typography } from "../../theme";
 import ScreenTitle from "./ScreenTitle";
-import { saveDeckTitle } from "../../utils/helpers";
+import { saveDeck } from "../../utils/helpers";
 
 const NewDeckScreen = () => {
   const [deckTitle, setDeckTitle] = useState("");
 
   const onAddPress = async () => {
-    await saveDeckTitle(deckTitle);
+    const deck = {
+      title: deckTitle,
+      cards: [],
+    };
+    await saveDeck(deck);
     setDeckTitle("");
   };
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { color, dimen, typography } from "../theme";
-const Deck = () => {
+const DeckScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.deckContainer}>
@@ -15,7 +15,7 @@ const Deck = () => {
   );
 };
 
-export default Deck;
+export default DeckScreen;
 
 const styles = StyleSheet.create({
   container: {
