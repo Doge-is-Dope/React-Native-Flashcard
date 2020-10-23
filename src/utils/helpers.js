@@ -1,3 +1,5 @@
+import AsyncStorage from "@react-native-community/async-storage";
+
 const DECK_STORAGE_KEY = "deck";
 
 /**

@@ -1,11 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { color, dimen, typography } from "../../theme";
+import theme, { color, dimen, typography } from "../../theme";
 import Deck from "../Deck";
 import ScreenTitle from "./ScreenTitle";
+import { getDecks } from "../../utils/helpers";
 
 const HomeScreen = () => {
+  const [decks, setDecks] = useState(null);
+
+  useEffect(() => {
+    const fetchDecks = async () => {
+      const decks = await getDecks();
+      setDecks(decks);
+      console.log("decks", decks);
+    };
+
+    fetchDecks();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScreenTitle text="Home" />
@@ -17,7 +30,5 @@ const HomeScreen = () => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: { flex: 1 },
 });
