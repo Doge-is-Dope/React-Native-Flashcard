@@ -1,42 +1,63 @@
 import AsyncStorage from "@react-native-community/async-storage";
 
-const DECK_STORAGE_KEY = "deck";
+const DECK_STORAGE_KEY = "Flashcards:Decks";
 
 /**
  * Return all of the decks
  */
-export const getDecks = async () => {
-  try {
-    const retrievedItem = await AsyncStorage.getItem(DECK_STORAGE_KEY);
-    return JSON.parse(retrievedItem);
-  } catch (error) {
-    console.log(error.message);
-  }
+export const getDecksFromStorage = async () => {
+  const retrievedItem = await AsyncStorage.getItem(DECK_STORAGE_KEY);
+  return JSON.parse(retrievedItem);
 };
 
 /**
- * Return the deck associated with the specified title
- * @param {string} title
+ * Delete all of the decks
  */
-export const getDeck = (title) => {};
-
-/**
- * Add a deck to the list.
- * @param {string} title
- */
-export const saveDeck = async (title) => {
-  try {
-    const deck = { [title]: { title, cards: [] } };
-    await AsyncStorage.mergeItem(DECK_STORAGE_KEY, JSON.stringify(deck));
-    return deck;
-  } catch (e) {
-    console.error(e);
-  }
+export const removeAllDecksFromStorage = async () => {
+  await AsyncStorage.clear();
 };
 
 /**
- * Add a card to the deck with the associated title.
- * @param {string} deckTitle
+ * Add a deck
+ * @param {Object} deck
+ */
+export const saveDeckInStorage = async (deck) => {
+  await AsyncStorage.mergeItem(DECK_STORAGE_KEY, JSON.stringify(deck));
+};
+
+/**
+ * Add decks
+ * @param {Object} decks
+ */
+export const saveAllDecksInStorage = async (decks) => {
+  await AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify(decks));
+};
+
+/**
+ * Delete a deck
+ * @param {string} deckId
+ */
+export const removeDeckFromStorage = async (deckId) => {
+  const decksData = await AsyncStorage.getItem(DECKS_STORAGE_KEY);
+  const decks = JSON.parse(decksData);
+  // todo: there may be a better way
+  decks[deckId] = undefined;
+  delete decks[deckId];
+  await AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify(decks));
+};
+
+/**
+ * Add a card to the deck with the associated id.
+ * @param {string} deckId
  * @param {Object} card
  */
-export const saveCardToDeck = (deckTitle, card) => {};
+export const saveCardInStorage = async (card, deckId) => {
+  const decksData = await AsyncStorage.getItem(DECK_STORAGE_KEY);
+  const decks = JSON.parse(decksData);
+
+  decks[deckId] = {
+    ...decks[deckId],
+    questions: [...decks[deckId].questions, card],
+  };
+  await AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify(decks));
+};
