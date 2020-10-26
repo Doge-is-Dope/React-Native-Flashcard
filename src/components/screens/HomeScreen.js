@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import theme, { color, dimen, typography } from "../../theme";
 
 import ScreenTitle from "./ScreenTitle";
-import { getDecks } from "../../utils/helpers";
+import { getDecks } from "../../utils/api";
 
 const HomeScreen = () => {
   const [decks, setDecks] = useState(null);

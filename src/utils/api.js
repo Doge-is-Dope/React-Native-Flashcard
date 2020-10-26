@@ -22,12 +22,12 @@ export const getDeck = (title) => {};
 
 /**
  * Add a deck to the list.
- * @param {Object} deck
+ * @param {string} title
  */
-export const saveDeck = async (deck) => {
+export const saveDeck = async (title) => {
   try {
-    const deckObj = { [deck.title]: deck };
-    await AsyncStorage.mergeItem(DECK_STORAGE_KEY, JSON.stringify(deckObj));
+    const deck = { [title]: { title, cards: [] } };
+    await AsyncStorage.mergeItem(DECK_STORAGE_KEY, JSON.stringify(deck));
     return deck;
   } catch (e) {
     console.error(e);
@@ -35,8 +35,8 @@ export const saveDeck = async (deck) => {
 };
 
 /**
- * Take in two arguments, id and card, and will add the card to the list of questions for the deck with the associated title.
- * @param {string} id
+ * Add a card to the deck with the associated title.
+ * @param {string} deckTitle
  * @param {Object} card
  */
-export const addCardToDeck = (id, card) => {};
+export const saveCardToDeck = (deckTitle, card) => {};
