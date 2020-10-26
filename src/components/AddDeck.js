@@ -17,8 +17,6 @@ const AddDeck = (props) => {
   const decks = useSelector((state) => state.decks);
   const dispatch = useDispatch();
 
-  console.log("Add Deck: decks", decks);
-
   const handleAddDeck = async () => {
     if (decks[deckTitle]) {
       console.log("this deck is already exists");

@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     ...typography.large,
   },
-
   deckContainer: {
     marginTop: dimen.appMargin,
     marginHorizontal: dimen.appMargin,
