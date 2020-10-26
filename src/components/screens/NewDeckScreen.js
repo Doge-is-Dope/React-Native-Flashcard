@@ -6,9 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import theme, { pallette, color, dimen, typography } from "../../theme";
-import ScreenTitle from "./ScreenTitle";
 import { saveDeck } from "../../utils/api";
 
 const NewDeckScreen = () => {
@@ -20,9 +18,7 @@ const NewDeckScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScreenTitle text={"New Deck"} />
-
+    <View style={styles.container}>
       <View style={styles.formContainer}>
         <TextInput
           style={styles.input}
@@ -39,7 +35,7 @@ const NewDeckScreen = () => {
           <Text style={theme.buttonText}>{"add".toUpperCase()}</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -49,6 +45,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: dimen.appMargin,
+    borderRadius: dimen.iconBtnPadding,
   },
   formContainer: {
     marginTop: dimen.appMargin,

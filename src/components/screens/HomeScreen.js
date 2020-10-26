@@ -1,10 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View, Text, FlatList, StyleSheet } from "react-native";
 import theme, { color, dimen, typography } from "../../theme";
-
-import ScreenTitle from "./ScreenTitle";
 import { getDecks } from "../../utils/api";
+import Deck from "../Deck";
+
+const dummyDecks = {
+  test1: {
+    title: "React-Native",
+    cards: [
+      { question: "q1", answer: "a1" },
+      { question: "q2", answer: "a2" },
+    ],
+  },
+  test2: {
+    title: "React",
+    cards: [
+      { question: "q1", answer: "a1" },
+      { question: "q2", answer: "a2" },
+    ],
+  },
+  test3: {
+    title: "Hello World Hello World",
+    cards: [
+      { question: "q1", answer: "a1" },
+      { question: "q2", answer: "a2" },
+    ],
+  },
+};
 
 const HomeScreen = () => {
   const [decks, setDecks] = useState(null);
@@ -19,10 +41,26 @@ const HomeScreen = () => {
     fetchDecks();
   }, []);
 
+  const deck = ({ title, cards }) => <Deck title={title} cards={cards} />;
+
   return (
-    <SafeAreaView style={styles.container}>
-      <ScreenTitle text="Home" />
-    </SafeAreaView>
+    <View
+      style={{
+        ...styles.container,
+        justifyContent: decks === null ? "center" : "flex-start",
+      }}
+    >
+      {}
+      {decks !== null ? (
+        <FlatList
+          data={decks}
+          renderItem={deck}
+          keyExtractor={(item) => item.title}
+        />
+      ) : (
+        <Text style={styles.noDeckText}>Add new deck to get started</Text>
+      )}
+    </View>
   );
 };
 
@@ -30,4 +68,8 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
+  noDeckText: {
+    alignSelf: "center",
+    ...typography.large,
+  },
 });

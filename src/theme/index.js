@@ -4,6 +4,7 @@ import * as dimen from "./dimen";
 import * as typography from "./typography";
 
 const pallette = {
+  ...color,
   primary: color.lightBlue,
   primaryDark: color.darkBlue,
   accent: color.crimson,

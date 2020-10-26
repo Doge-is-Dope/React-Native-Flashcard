@@ -2,6 +2,7 @@ import "react-native-gesture-handler";
 import React from "react";
 import { StatusBar, Platform } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
@@ -9,44 +10,10 @@ import { AppLoading } from "expo";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import NewDeckScreen from "./src/components/screens/NewDeckScreen";
 import HomeScreen from "./src/components/screens/HomeScreen";
-import { pallette } from "./src/theme";
+import theme, { pallette } from "./src/theme";
+import IconButton from "./src/components/IconButton";
 
-const Tab = createBottomTabNavigator();
-
-function MyTabs() {
-  return (
-    <Tab.Navigator
-      initialRouteName="Home"
-      tabBarOptions={{
-        activeTintColor: pallette.accent,
-        labelStyle: {
-          fontFamily: "Book",
-        },
-      }}
-    >
-      <Tab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          tabBarLabel: "home".toUpperCase(),
-          tabBarIcon: ({ color, size }) => (
-            <AntDesign name="home" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="New Deck"
-        component={NewDeckScreen}
-        options={{
-          tabBarLabel: "new deck".toUpperCase(),
-          tabBarIcon: ({ color, size }) => (
-            <AntDesign name="plussquareo" color={color} size={size} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
-}
+const RootStack = createStackNavigator();
 
 export default function App() {
   const [loaded, error] = useFonts({
@@ -64,7 +31,33 @@ export default function App() {
         barStyle={Platform.OS === "android" ? "light-content" : "dark-content"}
       />
       <NavigationContainer>
-        <MyTabs />
+        <RootStack.Navigator
+          mode="modal"
+          screenOptions={{
+            headerTitleStyle: {
+              fontFamily: "Book",
+              color: pallette.regularText,
+            },
+          }}
+        >
+          <RootStack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={({ navigation }) => ({
+              headerRight: () => (
+                <IconButton
+                  handleOnPress={() => navigation.navigate("Create")}
+                />
+              ),
+              title: "Decks",
+            })}
+          />
+          <RootStack.Screen
+            name="Create"
+            component={NewDeckScreen}
+            options={{ title: "Create Deck" }}
+          />
+        </RootStack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
   );
