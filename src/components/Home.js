@@ -10,9 +10,8 @@ import { useSelector, useDispatch } from "react-redux";
 
 import theme, { pallette, dimen, typography } from "../theme";
 import { getDecksFromStorage, saveAllDecksInStorage } from "../utils/api";
-import { dummyData } from "../utils/helpers";
+import { dummyData, getRandomColor } from "../utils/helpers";
 import { receiveDecks } from "../actions";
-import Deck from "./Deck";
 
 const HomeScreen = () => {
   const [isReady, setIsReady] = useState(false);
@@ -38,13 +37,22 @@ const HomeScreen = () => {
 
   const deck = ({ item }) => {
     // console.log("item", decks[item]);
+    const { title, questions } = decks[item];
+    const { textColor, backgroundColor } = getRandomColor();
     return (
       <TouchableOpacity>
-        <View style={styles.deckContainer}>
-          <Text style={styles.deckTitle} numberOfLines={1}>
-            {decks[item].title}
+        <View
+          style={{ ...styles.deckContainer, backgroundColor: backgroundColor }}
+        >
+          <Text
+            style={{ ...styles.deckTitle, color: textColor }}
+            numberOfLines={1}
+          >
+            {title}
           </Text>
-          <Text>{decks[item].questions.length}</Text>
+          <Text style={{ ...styles.deckCards, color: textColor }}>
+            {questions.length} {questions.length <= 1 ? "card" : "cards"}
+          </Text>
         </View>
       </TouchableOpacity>
     );
@@ -84,8 +92,7 @@ const styles = StyleSheet.create({
   deckContainer: {
     marginTop: dimen.appMargin,
     marginHorizontal: dimen.appMargin,
-    padding: 16,
-    backgroundColor: pallette.color3,
+    padding: 44,
     borderRadius: 16,
     alignItems: "center",
   },
@@ -94,5 +101,6 @@ const styles = StyleSheet.create({
   },
   deckCards: {
     ...typography.regular,
+    marginTop: dimen.appPadding,
   },
 });
