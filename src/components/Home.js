@@ -23,8 +23,8 @@ class Home extends Component {
 
     let decks = await getDecksFromStorage();
     if (decks === null) {
-      await saveAllDecksInStorage(getDummyData());
-      decks = await fetchDecksFromStorage();
+      await saveAllDecksInStorage(dummyData);
+      decks = await getDecksFromStorage();
     }
     receiveDecks(decks);
     this.setState({ isLoaded: true });

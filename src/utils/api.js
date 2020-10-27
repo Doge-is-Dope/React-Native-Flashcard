@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-community/async-storage";
 
-const DECK_STORAGE_KEY = "Flashcards:Decks";
+const DECK_STORAGE_KEY = "Flashcards:Deck";
 
 /**
  * Return all of the decks
