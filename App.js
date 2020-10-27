@@ -15,6 +15,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import AddDeck from "./src/components/AddDeck";
 import Home from "./src/components/Home";
 import Deck from "./src/components/Deck";
+import AddCard from "./src/components/AddCard";
 import IconButton from "./src/components/IconButton";
 import theme, { pallette } from "./src/theme";
 import reducer from "./src/reducers";
@@ -57,16 +58,22 @@ export default function App() {
                 headerRight: () => (
                   <IconButton
                     type="plus"
-                    handleOnPress={() => navigation.navigate("Create")}
+                    handleOnPress={() => navigation.navigate("AddDeck")}
                   />
                 ),
                 title: "Decks",
               })}
             />
             <RootStack.Screen
-              name="Create"
+              name="AddDeck"
               component={AddDeck}
               options={{ title: "Create Deck" }}
+            />
+
+            <RootStack.Screen
+              name="AddCard"
+              component={AddCard}
+              options={{ title: "Add Card" }}
             />
 
             <RootStack.Screen
