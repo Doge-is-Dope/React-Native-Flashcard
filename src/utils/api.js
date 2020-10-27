@@ -38,7 +38,7 @@ export const saveAllDecksInStorage = async (decks) => {
  * @param {string} deckId
  */
 export const removeDeckFromStorage = async (deckId) => {
-  const decksData = await AsyncStorage.getItem(DECKS_STORAGE_KEY);
+  const decksData = await AsyncStorage.getItem(DECK_STORAGE_KEY);
   const decks = JSON.parse(decksData);
   // todo: there may be a better way
   decks[deckId] = undefined;

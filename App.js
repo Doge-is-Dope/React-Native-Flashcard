@@ -4,13 +4,17 @@ import { StatusBar, Platform } from "react-native";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  HeaderBackButton,
+} from "@react-navigation/stack";
 import { useFonts } from "expo-font";
 import { AppLoading } from "expo";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import AddDeck from "./src/components/AddDeck";
 import Home from "./src/components/Home";
+import Deck from "./src/components/Deck";
 import IconButton from "./src/components/IconButton";
 import theme, { pallette } from "./src/theme";
 import reducer from "./src/reducers";
@@ -38,6 +42,7 @@ export default function App() {
         />
         <NavigationContainer>
           <RootStack.Navigator
+            initialRouteName="Home"
             screenOptions={{
               headerTitleStyle: {
                 fontFamily: "Book",
@@ -51,6 +56,7 @@ export default function App() {
               options={({ navigation }) => ({
                 headerRight: () => (
                   <IconButton
+                    type="plus"
                     handleOnPress={() => navigation.navigate("Create")}
                   />
                 ),
@@ -61,6 +67,22 @@ export default function App() {
               name="Create"
               component={AddDeck}
               options={{ title: "Create Deck" }}
+            />
+
+            <RootStack.Screen
+              name="Deck"
+              component={Deck}
+              options={({ route, navigation }) => ({
+                title: route.params.deckId,
+                headerLeft: () => (
+                  <IconButton
+                    type="close"
+                    handleOnPress={() => {
+                      navigation.navigate("Home");
+                    }}
+                  />
+                ),
+              })}
             />
           </RootStack.Navigator>
         </NavigationContainer>

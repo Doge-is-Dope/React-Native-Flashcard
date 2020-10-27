@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { Component } from "react";
 import {
   View,
   Text,
@@ -6,82 +6,88 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 
 import theme, { pallette, dimen, typography } from "../theme";
 import { getDecksFromStorage, saveAllDecksInStorage } from "../utils/api";
 import { dummyData, getRandomColor } from "../utils/helpers";
 import { receiveDecks } from "../actions";
+import { render } from "react-dom";
+import { isLoaded } from "expo-font";
 
-const HomeScreen = () => {
-  const [isReady, setIsReady] = useState(false);
-  const dispatch = useDispatch();
+class Home extends Component {
+  state = { isLoaded: false };
 
-  const decks = useSelector((state) => state.decks);
+  async componentDidMount() {
+    const { receiveDecks } = this.props;
 
-  useEffect(() => {
-    const initData = async () => {
-      let decks = await getDecksFromStorage();
-      if (decks === null) {
-        await saveAllDecksInStorage(dummyData);
-        decks = await getDecksFromStorage();
-      }
+    let decks = await getDecksFromStorage();
+    if (decks === null) {
+      await saveAllDecksInStorage(getDummyData());
+      decks = await fetchDecksFromStorage();
+    }
+    receiveDecks(decks);
+    this.setState({ isLoaded: true });
+  }
 
-      dispatch(receiveDecks({ decks: decks }));
-
-      setIsReady(true);
-    };
-
-    initData();
-  }, []);
-
-  const deck = ({ item }) => {
-    // console.log("item", decks[item]);
-    const { title, questions } = decks[item];
-    const { textColor, backgroundColor } = getRandomColor();
-    return (
-      <TouchableOpacity>
-        <View
-          style={{ ...styles.deckContainer, backgroundColor: backgroundColor }}
-        >
-          <Text
-            style={{ ...styles.deckTitle, color: textColor }}
-            numberOfLines={1}
-          >
-            {title}
-          </Text>
-          <Text style={{ ...styles.deckCards, color: textColor }}>
-            {questions.length} {questions.length <= 1 ? "card" : "cards"}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    );
+  handleOnPress = (deckId) => {
+    const { navigate } = this.props.navigation;
+    navigate("Deck", { deckId });
   };
 
-  if (!isReady) {
+  render() {
+    const { isLoaded } = this.state;
+    if (isLoaded === false) {
+      return (
+        <View>
+          <Text>Loading...</Text>
+        </View>
+      );
+    }
+    const { decks } = this.props;
+
     return (
-      <View>
-        <Text>Loading...</Text>
+      <View style={styles.container}>
+        <FlatList
+          data={Object.keys(decks)}
+          renderItem={({ item }) => (
+            <Deck deck={decks[item]} handleOnPress={this.handleOnPress} />
+          )}
+          keyExtractor={(key) => decks[key].title}
+        />
       </View>
     );
   }
+}
+
+const Deck = ({ deck, handleOnPress }) => {
+  const { title, questions } = deck;
+  const { textColor, backgroundColor } = getRandomColor();
 
   return (
-    <View
-      style={{
-        ...styles.container,
-      }}
-    >
-      <FlatList
-        data={Object.keys(decks)}
-        renderItem={deck}
-        keyExtractor={(item) => decks[item].title}
-      />
-    </View>
+    <TouchableOpacity onPress={() => handleOnPress(title)}>
+      <View
+        style={{ ...styles.deckContainer, backgroundColor: backgroundColor }}
+      >
+        <Text
+          style={{ ...styles.deckTitle, color: textColor }}
+          numberOfLines={1}
+        >
+          {title}
+        </Text>
+        <Text style={{ ...styles.deckCards, color: textColor }}>
+          {questions.length} {questions.length <= 1 ? "card" : "cards"}
+        </Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 
-export default HomeScreen;
+const mapStateToProps = (decks) => {
+  return { decks };
+};
+
+export default connect(mapStateToProps, { receiveDecks })(Home);
 
 const styles = StyleSheet.create({
   container: { flex: 1 },

@@ -5,89 +5,98 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-import { CommonActions } from "@react-navigation/native";
+import { connect } from "react-redux";
 
+import { addDeck } from "../actions";
+import { saveDeckInStorage } from "../utils/api";
 import theme, { pallette, dimen, typography } from "../theme";
 
-const AddDeck = (props) => {
-  const { navigation } = props;
+const AddDeck = ({ decks, addDeck, navigation }) => {
   const [deckTitle, setDeckTitle] = useState("");
-  const decks = useSelector((state) => state.decks);
-  const dispatch = useDispatch();
+
+  // console.log("AddDeck - decks", decks);
 
   const handleAddDeck = async () => {
+    // Check if the deck exists
     if (decks[deckTitle]) {
-      console.log("this deck is already exists");
+      Alert.alert(
+        "Deck Already Exists",
+        "Another deck with this title exists. Please try another title",
+        [{ text: "OK", onPress: () => setDeckTitle() }],
+        { cancelable: false }
+      );
       return;
     }
 
+    // Compose deck object
+    const deck = {
+      [deckTitle]: {
+        title: deckTitle,
+        questions: [],
+      },
+    };
+
     // Update redux
+    addDeck(deck);
+
+    // Save to DB
+    await saveDeckInStorage(deck);
 
     // Update local state
     setDeckTitle("");
 
     // Navigate to Deck
-
-    // Save to DB
-    // await saveDeck(deckTitle);
-
-    // Clean local notification
-  };
-
-  const toHome = () => {
-    navigation.dispatch(
-      CommonActions.goBack({
-        key: "Create",
-      })
-    );
+    navigation.navigate("Deck", { deckId: deckTitle });
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.formContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter the title of the deck"
-          value={deckTitle}
-          onChangeText={setDeckTitle}
-          returnKeyType="done"
-        />
+      <Text style={typography.title1}>What is the title of your new deck?</Text>
 
-        <TouchableOpacity
+      <TextInput
+        style={styles.input}
+        placeholder="Deck Title"
+        value={deckTitle}
+        onChangeText={setDeckTitle}
+        returnKeyType="done"
+      />
+
+      <TouchableOpacity
+        style={{
+          ...theme.button,
+          alignSelf: "center",
+          marginTop: dimen.appMargin,
+          backgroundColor: deckTitle === "" ? "lightgrey" : pallette.primary,
+        }}
+        disabled={deckTitle === ""}
+        onPress={handleAddDeck}
+      >
+        <Text
           style={{
-            ...theme.button,
-            marginTop: dimen.appMargin,
-            backgroundColor: deckTitle === "" ? "lightgrey" : pallette.primary,
+            ...theme.buttonText,
+            color: deckTitle === "" ? pallette.regularText : "white",
           }}
-          disabled={deckTitle === ""}
-          onPress={handleAddDeck}
         >
-          <Text
-            style={{
-              ...theme.buttonText,
-              color: deckTitle === "" ? pallette.regularText : "white",
-            }}
-          >
-            Create
-          </Text>
-        </TouchableOpacity>
-      </View>
+          Create
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
-export default AddDeck;
+const mapStateToProps = (decks) => {
+  return { decks };
+};
+
+export default connect(mapStateToProps, { addDeck })(AddDeck);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: dimen.appMargin,
     borderRadius: dimen.iconBtnPadding,
-  },
-  formContainer: {
-    marginTop: dimen.appMargin,
   },
   title: {
     ...typography.title1,
@@ -96,8 +105,9 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderRadius: 4,
+    borderRadius: 0,
     borderColor: pallette.primary,
-    padding: dimen.appPadding,
+    padding: dimen.appMargin,
+    marginTop: dimen.appMargin,
   },
 });

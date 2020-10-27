@@ -3,10 +3,10 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { dimen, pallette } from "../theme";
 
-const IconButton = ({ handleOnPress }) => {
+const IconButton = ({ handleOnPress, type }) => {
   return (
     <TouchableOpacity style={styles.button} onPress={handleOnPress}>
-      <AntDesign name="plus" size={24} color="black" />
+      <AntDesign name={type} size={24} color="black" />
     </TouchableOpacity>
   );
 };
