@@ -21,10 +21,11 @@ const AddDeck = ({ decks, addDeck, navigation }) => {
   const handleAddDeck = async () => {
     // Check if the deck exists
     if (decks[deckTitle]) {
+      setDeckTitle("");
       Alert.alert(
         "Deck Already Exists",
         "Another deck with this title exists. Please try another title",
-        [{ text: "OK", onPress: () => setDeckTitle() }],
+        [{ text: "OK" }],
         { cancelable: false }
       );
       return;
