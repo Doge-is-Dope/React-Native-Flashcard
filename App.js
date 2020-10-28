@@ -1,5 +1,5 @@
 import "react-native-gesture-handler";
-import React from "react";
+import React, { useEffect } from "react";
 import { StatusBar, Platform } from "react-native";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
@@ -12,6 +12,7 @@ import { useFonts } from "expo-font";
 import { AppLoading } from "expo";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import { setLocalNotification } from "./src/utils/helpers";
 import AddDeck from "./src/components/AddDeck";
 import Home from "./src/components/Home";
 import Deck from "./src/components/Deck";
@@ -29,6 +30,10 @@ export default function App() {
     Book: require("./assets/fonts/AirbnbCerealBook.ttf"),
     Bold: require("./assets/fonts/AirbnbCerealBold.ttf"),
   });
+
+  useEffect(() => {
+    setLocalNotification();
+  }, []);
 
   if (!loaded) {
     return <AppLoading />;

@@ -1,3 +1,50 @@
+import AsyncStorage from "@react-native-community/async-storage";
+import * as Notifications from "expo-notifications";
+import * as Permissions from "expo-permissions";
+
+const NOTIFICATION_KEY = "Flashcards:notifications";
+
+export const clearLocalNotification = async () => {
+  await AsyncStorage.removeItem(NOTIFICATION_KEY);
+  Notifications.cancelAllScheduledNotificationsAsync();
+};
+
+export const setLocalNotification = async () => {
+  const item = await AsyncStorage.getItem(NOTIFICATION_KEY);
+  const data = JSON.parse(item);
+
+  if (data === null) {
+    const permissionsNotifications = await Permissions.askAsync(
+      Permissions.NOTIFICATIONS
+    );
+    if (permissionsNotifications.status === "granted") {
+      Notifications.cancelAllScheduledNotificationsAsync();
+
+      let tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate());
+      tomorrow.setHours(0);
+      tomorrow.setMinutes(15);
+
+      // schedule notification everyday at 8:00 am
+      Notifications.scheduleNotificationAsync({
+        content: {
+          title: "Time to study",
+          body: "👋 don't forget to study today!",
+        },
+        trigger: {
+          hour: 8,
+          minute: 0,
+          repeats: true,
+        },
+      });
+
+      AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true));
+    } else {
+      console.log("status", permissionsNotifications.status);
+    }
+  }
+};
+
 export const dummyData = {
   React: {
     title: "React",

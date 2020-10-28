@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { AntDesign } from "@expo/vector-icons";
 
 import theme, { color, dimen, pallette, typography } from "../theme";
+import { clearLocalNotification, setLocalNotification } from "../utils/helpers";
 import Card from "./Card";
 import QuizResult from "./QuizResult";
 
@@ -34,8 +35,15 @@ const Quiz = (props) => {
     navigation.navigate("Deck");
   };
 
+  const handleNotification = async () => {
+    // user has completed at least one quiz for today
+    await clearLocalNotification();
+    setLocalNotification();
+  };
+
   if (currentQuestionNo === deck.questions.length) {
-    console.log("show score", score);
+    handleNotification();
+
     return (
       <QuizResult
         total={deck.questions.length}
@@ -119,6 +127,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     justifyContent: "space-evenly",
+    marginHorizontal: 32,
   },
   answerBtn: {
     padding: 16,
