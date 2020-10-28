@@ -11,6 +11,8 @@ const pallette = {
   regularText: "rgba(0, 0, 0, 0.87)",
   helperText: "rgba(0, 0, 0, 0.6)",
   errorText: "rgba(176, 0, 32, 1)",
+  correct: "#4ecdc4",
+  incorrect: "#ff6b6b",
 };
 
 // global theme
