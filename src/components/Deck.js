@@ -14,6 +14,15 @@ const Deck = ({ route, navigation, deck, deleteDeck }) => {
   };
 
   const handleStartQuiz = () => {
+    if (deck.questions.length === 0) {
+      Alert.alert(
+        "Empty Deck",
+        "You need to add more cards to start a quiz",
+        [{ text: "Ok" }],
+        { cancelable: false }
+      );
+      return;
+    }
     navigation.navigate("Quiz", { deckId: deckId });
   };
 

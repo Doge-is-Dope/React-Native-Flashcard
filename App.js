@@ -16,6 +16,7 @@ import AddDeck from "./src/components/AddDeck";
 import Home from "./src/components/Home";
 import Deck from "./src/components/Deck";
 import AddCard from "./src/components/AddCard";
+import Quiz from "./src/components/Quiz";
 import IconButton from "./src/components/IconButton";
 import theme, { pallette } from "./src/theme";
 import reducer from "./src/reducers";
@@ -74,6 +75,14 @@ export default function App() {
               name="AddCard"
               component={AddCard}
               options={{ title: "Add Card" }}
+            />
+
+            <RootStack.Screen
+              name="Quiz"
+              component={Quiz}
+              options={{
+                title: "Quiz",
+              }}
             />
 
             <RootStack.Screen
