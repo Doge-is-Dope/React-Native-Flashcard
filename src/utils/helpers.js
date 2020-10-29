@@ -32,9 +32,9 @@ export const setLocalNotification = async () => {
           body: "👋 don't forget to study today!",
         },
         trigger: {
-          // hour: 8,
-          // minute: 0,
-          seconds: 60,
+          hour: 8,
+          minute: 0,
+          // seconds: 60,
           repeats: true,
         },
       });
