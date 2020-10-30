@@ -2,6 +2,9 @@ import AsyncStorage from "@react-native-community/async-storage";
 import * as Notifications from "expo-notifications";
 import * as Permissions from "expo-permissions";
 
+import { pallette } from "../theme";
+import randomColor from "./randomColor";
+
 const NOTIFICATION_KEY = "Flashcards:notifications";
 
 export const clearLocalNotification = async () => {
@@ -41,7 +44,7 @@ export const setLocalNotification = async () => {
 
       AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true));
     } else {
-      console.log("status", permissionsNotifications.status);
+      // console.log("status", permissionsNotifications.status);
     }
   }
 };
@@ -72,19 +75,27 @@ export const dummyData = {
   },
 };
 
-import { pallette } from "../theme";
-// Return random color
-export const getRandomColor = () => {
-  const rgb = [255, 0, 0];
-  rgb[0] = Math.round(Math.random() * 255);
-  rgb[1] = Math.round(Math.random() * 255);
-  rgb[2] = Math.round(Math.random() * 255);
+// Return random color with text color based on the brightness
+export const getRandomColor = (title) => {
+  // const rgb = [255, 0, 0];
+  // rgb[0] = Math.round(Math.random() * 255);
+  // rgb[1] = Math.round(Math.random() * 255);
+  // rgb[2] = Math.round(Math.random() * 255);
+
+  const rgbString = randomColor({
+    luminosity: "light",
+    seed: title,
+    format: "rgb",
+  });
+  const rgbArray = rgbString.match(/\d+/g);
 
   const brightness = Math.round(
-    (parseInt(rgb[0]) * 299 + parseInt(rgb[1]) * 587 + parseInt(rgb[2]) * 114) /
+    (parseInt(rgbArray[0]) * 299 +
+      parseInt(rgbArray[1]) * 587 +
+      parseInt(rgbArray[2]) * 114) /
       1000
   );
   const textColor = brightness > 125 ? pallette.regularText : "white";
-  const backgroundColor = "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
+  const backgroundColor = rgbString;
   return { textColor, backgroundColor };
 };

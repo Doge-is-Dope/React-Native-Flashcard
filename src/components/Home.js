@@ -62,7 +62,7 @@ class Home extends Component {
 
 const Deck = ({ deck, handleOnPress }) => {
   const { title, questions } = deck;
-  const { textColor, backgroundColor } = getRandomColor();
+  const { textColor, backgroundColor } = getRandomColor(title);
 
   return (
     <TouchableOpacity onPress={() => handleOnPress(title)}>
