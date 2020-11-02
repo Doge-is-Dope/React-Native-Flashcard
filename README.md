@@ -20,3 +20,16 @@ This app is built with [`expo`](https://expo.io/) and the following dependencies
 - iPhone XS (iOS device)
 - iPhone 12 (iOS simulator)
 - Pixel 4 (Android device)
+
+### Planning
+
+- [ ] Card Management: delete card
+- [ ] Card Management: edit card
+- [ ] Card Management: card view
+- [ ] Deck Management: import deck
+- [ ] Deck Management: export deck
+- [ ] Quiz: share
+- [ ] Statistics screen
+- [ ] Settings screen
+- [ ] Flip card gesture
+- [ ] Explore screen
