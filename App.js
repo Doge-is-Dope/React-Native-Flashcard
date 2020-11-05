@@ -16,6 +16,7 @@ import { setLocalNotification } from "./src/utils/helpers";
 import AddDeck from "./src/components/AddDeck";
 import Home from "./src/components/Home";
 import Deck from "./src/components/Deck";
+import Manage from "./src/components/Manage";
 import AddCard from "./src/components/AddCard";
 import Quiz from "./src/components/Quiz";
 import IconButton from "./src/components/IconButton";
@@ -74,6 +75,12 @@ export default function App() {
               name="AddDeck"
               component={AddDeck}
               options={{ title: "Create Deck" }}
+            />
+
+            <RootStack.Screen
+              name="Manage"
+              component={Manage}
+              options={{ title: "Manage" }}
             />
 
             <RootStack.Screen

@@ -9,6 +9,10 @@ import { removeDeckFromStorage } from "../utils/api";
 const Deck = ({ route, navigation, deck, deleteDeck }) => {
   const { deckId } = route.params;
 
+  const handleManage = () => {
+    navigation.navigate("Manage", { deckId: deckId });
+  };
+
   const handleAddCard = () => {
     navigation.navigate("AddCard", { deckId: deckId });
   };
@@ -75,6 +79,22 @@ const Deck = ({ route, navigation, deck, deleteDeck }) => {
           marginBottom: 32,
         }}
       >
+        <TouchableOpacity
+          style={{
+            ...theme.button,
+            marginTop: dimen.appMargin,
+            borderWidth: 1,
+            backgroundColor: null,
+            borderColor: pallette.primary,
+            width: "80%",
+          }}
+          onPress={handleManage}
+        >
+          <Text style={{ ...theme.buttonText, color: pallette.primary }}>
+            Manage
+          </Text>
+        </TouchableOpacity>
+
         <TouchableOpacity
           style={{
             ...theme.button,
